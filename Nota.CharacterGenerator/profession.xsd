@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:nota="http://nota-game.azurewebsites.net/schema/nota"
+        xmlns:wesen="http://nota-game.azurewebsites.net/schema/geschöpf"
+        xmlns:kultur="http://nota-game.azurewebsites.net/schema/kultur"
+        xmlns:profession="http://nota-game.azurewebsites.net/schema/profession"
+        xmlns:talent="http://nota-game.azurewebsites.net/schema/talent"
+        xmlns:fertigkeit="http://nota-game.azurewebsites.net/schema/fertigkeit"
+        xmlns:besonderheit="http://nota-game.azurewebsites.net/schema/besonderheit"
+        targetNamespace="http://nota-game.azurewebsites.net/schema/profession"
+        elementFormDefault="qualified">
+  <import namespace="http://nota-game.azurewebsites.net/schema/nota" schemaLocation="http://nota-game.azurewebsites.net/schema/nota.xsd"></import>
+  <import namespace="http://nota-game.azurewebsites.net/schema/geschöpf" schemaLocation="http://nota-game.azurewebsites.net/schema/geschöpf.xsd"></import>
+  <import namespace="http://nota-game.azurewebsites.net/schema/kultur" schemaLocation="http://nota-game.azurewebsites.net/schema/kultur.xsd"></import>
+  <import namespace="http://nota-game.azurewebsites.net/schema/talent" schemaLocation="http://nota-game.azurewebsites.net/schema/talent.xsd"></import>
+  <import namespace="http://nota-game.azurewebsites.net/schema/fertigkeit" schemaLocation="http://nota-game.azurewebsites.net/schema/fertigkeit.xsd"></import>
+  <import namespace="http://nota-game.azurewebsites.net/schema/besonderheit" schemaLocation="http://nota-game.azurewebsites.net/schema/besonderheit.xsd"></import>
+  <element name="Professionen">
+    <complexType>
+      <sequence>
+        <element name="Profession" maxOccurs="unbounded" minOccurs="0">
+          <complexType>
+            <sequence>
+              <element name="Beschreibung" type="string"/>
+              <element ref="nota:Levels"/>
+            </sequence>
+            <attribute name="Name" type="string" use="required"/>
+            <attribute name="Kosten" type="int" use="required"/>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="Profession"  type="nota:NamedType"/>
+
+  <complexType name="ProfessionAuswahl">
+    <choice>
+      <element ref="profession:Or"></element>
+      <element ref="profession:And"></element>
+      <element ref="profession:Not"></element>
+      <element ref="profession:Profession"/>
+    </choice>
+  </complexType>
+  <complexType name="ProfessionAuswahlen">
+    <choice maxOccurs="unbounded">
+      <element ref="profession:Or"></element>
+      <element ref="profession:And"></element>
+      <element ref="profession:Not"></element>
+      <element ref="profession:Profession"/>
+    </choice>
+  </complexType>
+
+  <element name="Or" type="profession:ProfessionAuswahlen" />
+  <element name="And" type="profession:ProfessionAuswahlen" />
+  <element name="Not" type="profession:ProfessionAuswahl" />
+
+
+</schema>
